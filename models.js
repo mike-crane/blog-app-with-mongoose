@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const uuid = require('uuid');
 
 // schema to represent a blog post
 const postSchema = mongoose.Schema({
@@ -10,8 +9,7 @@ const postSchema = mongoose.Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true }
   },
-  created: { type: Date, required: false },
-  id: { type: Number, required: false }
+  created: { type: Date, required: false, default: Date.now }
 });
 
 postSchema.virtual('authorFullName').get(function () {
@@ -19,13 +17,12 @@ postSchema.virtual('authorFullName').get(function () {
 });
 
 postSchema.methods.serialize = function () {
-
   return {
     title: this.title,
     content: this.content,
     author: this.authorFullName,
-    created: Date.now(),
-    id: uuid.v4()
+    created: this.created,
+    id: this._id
   };
 }
 

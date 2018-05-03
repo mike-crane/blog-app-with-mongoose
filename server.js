@@ -19,10 +19,10 @@ app.get('/posts', (req, res) => {
   Post
     .find()
     .then(posts => {
-      res.json({
-        posts: posts.map(
+      res.status(200).json(
+        posts.map(
           (post) => post.serialize())
-      });
+      );
     })
     .catch(
       err => {
@@ -94,6 +94,7 @@ app.delete('/posts/:id', (req, res) => {
     .then(() => res.status(204).end())
     .catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
+
 // closeServer needs access to a server object, but that only
 // gets created when `runServer` runs, so we declare `server` here
 // and then assign a value to it in run
